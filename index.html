@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nelson Rodrigue TOSSOUVI — Développeur Web Full-Stack</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#0B1E3F;
+    --blue-deep:#0F3D91;
+    --blue:#1857C4;
+    --blue-bright:#2E7DF7;
+    --blue-pale:#EAF1FD;
+    --paper:#FFFFFF;
+    --bg:#F5F8FC;
+    --ink:#101828;
+    --ink-soft:#4A5568;
+    --line:#E2E8F0;
+    --gold:#D9A441;
+    --display:'Space Grotesk', sans-serif;
+    --body:'Inter', sans-serif;
+    --mono:'IBM Plex Mono', monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--bg);color:var(--ink);font-family:var(--body);line-height:1.65;overflow-x:hidden;}
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important;scroll-behavior:auto !important;}
+  }
+  a{color:inherit;}
+  img{display:block;max-width:100%;}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 32px;}
+
+  /* ---------- NAV ---------- */
+  nav{
+    position:sticky;top:0;z-index:60;
+    background:rgba(255,255,255,0.92);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  nav .wrap{display:flex;align-items:center;justify-content:space-between;height:72px;gap:20px;}
+  .brand{display:flex;align-items:center;gap:10px;}
+  .brand .mark{
+    width:34px;height:34px;border-radius:8px;
+    background:linear-gradient(135deg,var(--blue),var(--navy));
+    display:flex;align-items:center;justify-content:center;
+    font-family:var(--display);font-weight:700;color:#fff;font-size:15px;
+  }
+  .brand .name{font-family:var(--display);font-weight:600;font-size:15.5px;color:var(--navy);}
+  .brand .name span{color:var(--blue);}
+  .navlinks{display:flex;gap:30px;font-size:14px;font-weight:500;}
+  .navlinks a{text-decoration:none;color:var(--ink-soft);position:relative;padding:4px 0;transition:color .2s;}
+  .navlinks a:hover, .navlinks a:focus-visible{color:var(--blue);outline:none;}
+  .navlinks a:focus-visible{outline:2px solid var(--blue);outline-offset:4px;border-radius:2px;}
+  .nav-right{display:flex;align-items:center;gap:14px;}
+  .nav-social{display:flex;gap:10px;}
+  .nav-social a{
+    width:34px;height:34px;border-radius:8px;
+    display:flex;align-items:center;justify-content:center;
+    color:var(--navy);background:var(--blue-pale);
+    transition:background .2s, color .2s, transform .15s;
+  }
+  .nav-social a:hover{background:var(--blue);color:#fff;transform:translateY(-2px);}
+  .nav-social a:focus-visible{outline:2px solid var(--blue);outline-offset:2px;}
+  .nav-social svg{width:16px;height:16px;}
+  .nav-cv{
+    font-family:var(--mono);font-size:12.5px;font-weight:500;
+    background:var(--navy);color:#fff;padding:9px 16px;border-radius:6px;
+    text-decoration:none;white-space:nowrap;transition:background .2s;
+  }
+  .nav-cv:hover{background:var(--blue);}
+  @media (max-width:860px){ .navlinks{display:none;} }
+
+  /* ---------- HERO ---------- */
+  header.hero{
+    position:relative;padding:88px 0 76px;overflow:hidden;
+    background:
+      radial-gradient(ellipse 900px 500px at 85% -10%, rgba(46,125,247,0.14), transparent 60%),
+      radial-gradient(ellipse 700px 400px at -5% 100%, rgba(11,30,63,0.06), transparent 60%);
+  }
+  .hero-grid{display:grid;grid-template-columns:1.15fr 0.85fr;gap:56px;align-items:center;}
+  .eyebrow-line{
+    display:flex;align-items:center;gap:10px;
+    font-family:var(--mono);font-size:12.5px;letter-spacing:0.08em;
+    color:var(--blue);text-transform:uppercase;margin-bottom:20px;
+  }
+  .eyebrow-line .pulse{width:7px;height:7px;border-radius:50%;background:var(--blue-bright);position:relative;}
+  .eyebrow-line .pulse::after{
+    content:"";position:absolute;inset:-4px;border-radius:50%;border:1.5px solid var(--blue-bright);
+    animation:pulse 2s ease-out infinite;
+  }
+  @keyframes pulse{0%{transform:scale(0.6);opacity:1;}100%{transform:scale(2.2);opacity:0;}}
+
+  h1.name{
+    font-family:var(--display);font-weight:700;
+    font-size:clamp(32px,4.6vw,52px);line-height:1.08;letter-spacing:-0.01em;
+    color:var(--navy);
+  }
+  h1.name .accent{color:var(--blue);}
+  .role{font-family:var(--mono);font-size:15.5px;color:var(--ink-soft);margin-top:16px;}
+  .hero-lede{margin-top:22px;max-width:540px;font-size:16.5px;color:var(--ink-soft);}
+  .hero-cta{margin-top:32px;display:flex;gap:14px;flex-wrap:wrap;}
+  .btn{
+    font-family:var(--mono);font-size:13px;letter-spacing:0.01em;font-weight:500;
+    padding:14px 24px;border-radius:7px;text-decoration:none;display:inline-flex;align-items:center;gap:8px;
+    transition:transform .15s ease, box-shadow .2s, background .2s;
+  }
+  .btn:focus-visible{outline:2px solid var(--blue);outline-offset:3px;}
+  .btn-primary{background:var(--blue);color:#fff;box-shadow:0 10px 24px -8px rgba(24,87,196,0.55);}
+  .btn-primary:hover{transform:translateY(-2px);background:var(--blue-deep);}
+  .btn-ghost{border:1px solid var(--line);color:var(--navy);background:#fff;}
+  .btn-ghost:hover{border-color:var(--blue);color:var(--blue);}
+
+  /* photo card */
+  .photo-card{position:relative;justify-self:center;}
+  .photo-frame{
+    width:280px;height:340px;border-radius:16px;overflow:hidden;
+    background:linear-gradient(160deg,var(--navy),var(--blue));
+    padding:5px;box-shadow:0 30px 60px -20px rgba(11,30,63,0.45);
+  }
+  .photo-frame img{width:100%;height:100%;object-fit:cover;border-radius:12px;}
+  .photo-badge{
+    position:absolute;bottom:-16px;left:50%;transform:translateX(-50%);
+    background:#fff;border:1px solid var(--line);border-radius:10px;
+    padding:10px 18px;box-shadow:0 12px 30px -12px rgba(11,30,63,0.3);
+    display:flex;align-items:center;gap:8px;white-space:nowrap;
+  }
+  .photo-badge .pulse{width:7px;height:7px;border-radius:50%;background:#2FBF71;}
+  .photo-badge span{font-family:var(--mono);font-size:12px;color:var(--navy);font-weight:500;}
+
+  /* ---------- CODE STRIP (web-dev animation) ---------- */
+  .code-strip{background:var(--navy);padding:0;}
+  .code-window{
+    max-width:1120px;margin:0 auto;
+    background:#0E1F42;border-radius:0;
+    display:grid;grid-template-columns:1fr;
+  }
+  .code-topbar{
+    display:flex;align-items:center;gap:8px;
+    padding:14px 32px;border-bottom:1px solid rgba(255,255,255,0.08);
+  }
+  .code-topbar .dot{width:10px;height:10px;border-radius:50%;}
+  .code-topbar .dot.r{background:#FF5F57;}
+  .code-topbar .dot.y{background:#FEBC2E;}
+  .code-topbar .dot.g{background:#28C840;}
+  .code-topbar .filename{
+    margin-left:14px;font-family:var(--mono);font-size:12px;color:rgba(255,255,255,0.5);
+  }
+  .code-body{
+    padding:26px 32px 34px;font-family:var(--mono);font-size:13.5px;line-height:1.9;
+    color:#CFE0FF;min-height:150px;
+  }
+  .code-body .kw{color:#8AB4FF;}
+  .code-body .str{color:#7FE0A8;}
+  .code-body .tag{color:#F2B279;}
+  .code-body .cmt{color:rgba(255,255,255,0.4);}
+  .code-cursor{display:inline-block;width:7px;height:15px;background:#8AB4FF;vertical-align:-3px;animation:blink 1s steps(2) infinite;}
+  @keyframes blink{50%{opacity:0;}}
+
+  /* ---------- SECTIONS ---------- */
+  section{padding:88px 0;}
+  .eyebrow{
+    font-family:var(--mono);font-size:12px;letter-spacing:0.12em;
+    color:var(--blue);text-transform:uppercase;margin-bottom:14px;font-weight:600;
+  }
+  h2.title{font-family:var(--display);font-weight:700;font-size:clamp(26px,3.6vw,36px);color:var(--navy);max-width:640px;margin-bottom:18px;}
+  .lede{color:var(--ink-soft);max-width:600px;font-size:16px;}
+
+  /* ---------- ABOUT ---------- */
+  .about-grid{display:grid;grid-template-columns:1fr 320px;gap:52px;align-items:start;margin-top:44px;}
+  .about-text p{margin-bottom:16px;color:var(--ink-soft);font-size:16px;}
+  .about-text strong{color:var(--navy);font-weight:600;}
+  .parcours{margin-top:28px;display:flex;flex-direction:column;gap:16px;}
+  .parcours-item{display:flex;gap:16px;align-items:flex-start;}
+  .parcours-dot{width:10px;height:10px;border-radius:50%;background:var(--blue);margin-top:6px;flex-shrink:0;}
+  .parcours-item .yr{font-family:var(--mono);font-size:12.5px;color:var(--blue);font-weight:600;}
+  .parcours-item .lbl{font-size:15px;color:var(--ink);margin-top:2px;}
+
+  .info-card{
+    background:var(--paper);border:1px solid var(--line);border-radius:14px;
+    padding:26px;box-shadow:0 20px 40px -28px rgba(11,30,63,0.25);
+  }
+  .info-card h4{font-family:var(--mono);font-size:11.5px;letter-spacing:0.08em;color:var(--blue);text-transform:uppercase;margin-bottom:16px;}
+  .info-row{display:flex;justify-content:space-between;gap:12px;padding:11px 0;border-bottom:1px solid var(--line);font-size:14px;}
+  .info-row:last-child{border-bottom:none;}
+  .info-row .k{color:var(--ink-soft);}
+  .info-row .v{color:var(--navy);font-weight:600;text-align:right;}
+
+  /* ---------- PROJECTS ---------- */
+  .projects-list{display:flex;flex-direction:column;gap:24px;margin-top:44px;}
+  .proj{
+    background:var(--paper);border:1px solid var(--line);border-radius:14px;
+    padding:32px;box-shadow:0 20px 44px -30px rgba(11,30,63,0.28);
+    transition:transform .2s ease, box-shadow .2s ease;
+  }
+  .proj:hover{transform:translateY(-3px);box-shadow:0 26px 50px -26px rgba(11,30,63,0.35);}
+  .proj-head{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;flex-wrap:wrap;margin-bottom:16px;}
+  .proj-head h3{font-family:var(--display);font-weight:700;font-size:22px;color:var(--navy);}
+  .proj-head .subtitle{font-family:var(--mono);font-size:12.5px;color:var(--ink-soft);margin-top:4px;}
+  .status-pill{font-family:var(--mono);font-size:11px;letter-spacing:0.04em;padding:5px 11px;border-radius:20px;white-space:nowrap;font-weight:500;}
+  .status-live{background:#E7F7EE;color:#1B8A4C;border:1px solid #BFE9CE;}
+  .status-progress{background:#FFF4E0;color:#9A6A0C;border:1px solid #F5DBA1;}
+  .proj p.desc{font-size:15.5px;color:var(--ink-soft);margin-bottom:20px;max-width:680px;}
+  .stat-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:14px;margin-bottom:20px;}
+  .stat{font-family:var(--mono);}
+  .stat .num{font-size:20px;font-weight:700;color:var(--blue);}
+  .stat .lbl{font-size:11px;color:var(--ink-soft);text-transform:uppercase;letter-spacing:0.04em;margin-top:2px;}
+  .tag-row{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px;}
+  .tag{font-family:var(--mono);font-size:11.5px;background:var(--blue-pale);color:var(--blue-deep);padding:5px 10px;border-radius:5px;}
+  .proj-link{
+    display:inline-flex;align-items:center;gap:8px;
+    font-family:var(--mono);font-size:12.5px;color:var(--navy);text-decoration:none;
+    border:1px solid var(--line);padding:9px 14px;border-radius:7px;transition:border-color .2s,color .2s;
+  }
+  .proj-link:hover{border-color:var(--blue);color:var(--blue);}
+  .proj-link svg{width:14px;height:14px;}
+
+  /* ---------- SKILLS ---------- */
+  .kit{margin-top:44px;display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:20px;}
+  .kit-group{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:24px;}
+  .kit-group h4{font-family:var(--mono);font-size:11.5px;letter-spacing:0.08em;color:var(--blue);text-transform:uppercase;margin-bottom:16px;}
+  .kit-group ul{list-style:none;display:flex;flex-direction:column;gap:10px;}
+  .kit-group li{font-size:14.5px;color:var(--ink);display:flex;align-items:center;gap:10px;}
+  .kit-group li::before{content:"";width:6px;height:6px;background:var(--blue);border-radius:50%;flex-shrink:0;}
+
+  .soft-skills{margin-top:24px;display:flex;flex-wrap:wrap;gap:10px;}
+  .soft-pill{font-size:13.5px;background:var(--blue-pale);color:var(--blue-deep);padding:8px 14px;border-radius:20px;font-weight:500;}
+
+  /* ---------- CONTACT ---------- */
+  .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;margin-top:44px;align-items:start;}
+  .contact-card{
+    background:linear-gradient(160deg,var(--navy),var(--blue-deep));
+    border-radius:16px;padding:36px;color:#fff;
+  }
+  .contact-card h3{font-family:var(--display);font-size:22px;margin-bottom:12px;}
+  .contact-card p{color:rgba(255,255,255,0.75);font-size:15px;margin-bottom:26px;}
+  .contact-list{display:flex;flex-direction:column;gap:14px;}
+  .contact-list a{
+    display:flex;align-items:center;gap:12px;
+    font-family:var(--mono);font-size:13.5px;color:#fff;text-decoration:none;
+    background:rgba(255,255,255,0.08);padding:12px 16px;border-radius:8px;
+    transition:background .2s, transform .15s;
+  }
+  .contact-list a:hover{background:rgba(255,255,255,0.16);transform:translateX(3px);}
+  .contact-list svg{width:17px;height:17px;flex-shrink:0;}
+  .avail-card{
+    background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:36px;
+  }
+  .avail-card h3{font-family:var(--display);font-size:20px;color:var(--navy);margin-bottom:14px;}
+  .avail-card p{color:var(--ink-soft);font-size:15px;margin-bottom:22px;}
+  .avail-row{display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--line);font-size:14px;}
+  .avail-row:last-of-type{border-bottom:none;}
+  .avail-row .k{color:var(--ink-soft);}
+  .avail-row .v{color:var(--navy);font-weight:600;}
+
+  footer{padding:32px 0;border-top:1px solid var(--line);background:var(--paper);}
+  .footer-inner{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;font-family:var(--mono);font-size:12px;color:var(--ink-soft);}
+
+  @media (max-width:860px){
+    .hero-grid{grid-template-columns:1fr;}
+    .photo-card{order:-1;}
+    .about-grid{grid-template-columns:1fr;}
+    .contact-grid{grid-template-columns:1fr;}
+  }
+
+  [data-reveal]{opacity:0;transform:translateY(16px);transition:opacity .6s ease, transform .6s ease;}
+  [data-reveal].in{opacity:1;transform:translateY(0);}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <div class="brand">
+      <div class="mark">N</div>
+      <div class="name">Nelson <span>Tossouvi</span></div>
+    </div>
+    <div class="navlinks">
+      <a href="#about">À propos</a>
+      <a href="#projets">Projets</a>
+      <a href="#competences">Compétences</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <div class="nav-right">
+      <div class="nav-social">
+        <a href="https://github.com/nelsontossouvi-dotcom" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.73.5.5 5.73.5 12c0 5.09 3.29 9.4 7.86 10.93.57.1.79-.25.79-.55 0-.27-.01-1.17-.02-2.12-3.2.7-3.87-1.36-3.87-1.36-.53-1.34-1.29-1.7-1.29-1.7-1.05-.72.08-.71.08-.71 1.17.08 1.78 1.2 1.78 1.2 1.03 1.77 2.71 1.26 3.37.96.1-.75.4-1.26.73-1.55-2.56-.29-5.26-1.28-5.26-5.69 0-1.26.45-2.29 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11.1 11.1 0 0 1 5.79 0c2.2-1.49 3.17-1.18 3.17-1.18.64 1.59.24 2.76.12 3.05.74.8 1.18 1.83 1.18 3.09 0 4.42-2.7 5.4-5.27 5.68.41.36.78 1.06.78 2.15 0 1.55-.01 2.8-.01 3.18 0 .3.21.66.8.55A10.51 10.51 0 0 0 23.5 12C23.5 5.73 18.27.5 12 .5Z"/></svg>
+        </a>
+        <a href="https://www.linkedin.com/in/nelson-tossouvi-b67347318?trk=contact-info" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.34V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29ZM5.34 7.43a2.07 2.07 0 1 1 0-4.13 2.07 2.07 0 0 1 0 4.13ZM7.12 20.45H3.56V9h3.56v11.45ZM22.22 0H1.77C.8 0 0 .78 0 1.75v20.5C0 23.22.8 24 1.77 24h20.45c.98 0 1.78-.78 1.78-1.75V1.75C24 .78 23.2 0 22.22 0Z"/></svg>
+        </a>
+        <a href="https://wa.me/22954046340" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.46 1.32 4.96L2.05 22l5.25-1.38a9.9 9.9 0 0 0 4.74 1.21h.01c5.46 0 9.9-4.45 9.9-9.92 0-2.65-1.03-5.14-2.9-7.01A9.87 9.87 0 0 0 12.04 2Zm0 18.15h-.01a8.2 8.2 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.22 8.22 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.26-8.24 2.2 0 4.28.86 5.84 2.42a8.17 8.17 0 0 1 2.42 5.83c0 4.55-3.71 8.23-8.27 8.23Zm4.52-6.16c-.25-.12-1.47-.72-1.7-.81-.23-.08-.39-.12-.56.13-.17.24-.64.81-.78.97-.15.17-.29.19-.54.06-.25-.12-1.04-.38-1.99-1.22-.74-.65-1.23-1.46-1.38-1.7-.14-.25-.02-.38.11-.5.11-.11.25-.29.37-.43.13-.15.17-.25.25-.42.08-.17.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.4-.42-.56-.42h-.48c-.17 0-.43.06-.66.31-.22.25-.87.85-.87 2.08 0 1.23.89 2.41 1.02 2.58.12.17 1.75 2.67 4.24 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.68-1.18.2-.58.2-1.08.14-1.18-.06-.1-.22-.16-.47-.28Z"/></svg>
+        </a>
+      </div>
+      <a class="nav-cv" href="CV_Nelson_Tossouvi.pdf" download>Télécharger le CV</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="eyebrow-line"><span class="pulse"></span> Disponible pour de nouveaux projets</div>
+      <h1 class="name">Nelson Rodrigue<br><span class="accent">Tossouvi</span></h1>
+      <div class="role">Développeur Web Full-Stack — PHP/MySQL &amp; Laravel/React</div>
+      <p class="hero-lede">
+        Je conçois et je code des plateformes web complètes pour le marché ouest-africain :
+        marketplaces, gestion d'événements, outils métiers — avec paiement Mobile Money,
+        interfaces en français et déploiement sur hébergement local.
+      </p>
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="#projets">Voir mes projets</a>
+        <a class="btn btn-ghost" href="CV_Nelson_Tossouvi.pdf" download>Télécharger mon CV</a>
+      </div>
+    </div>
+    <div class="photo-card">
+      <div class="photo-frame">
+        <img src="nelson-photo.jpg" alt="Photo de profil de Nelson Rodrigue Tossouvi">
+      </div>
+      <div class="photo-badge"><span class="pulse"></span><span>Basé à Cotonou, Bénin</span></div>
+    </div>
+  </div>
+</header>
+
+<div class="code-strip">
+  <div class="code-window">
+    <div class="code-topbar">
+      <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+      <span class="filename">portfolio.js</span>
+    </div>
+    <div class="code-body" id="codeBody" aria-hidden="true"></div>
+  </div>
+</div>
+
+<section id="about">
+  <div class="wrap">
+    <div class="eyebrow">Profil</div>
+    <h2 class="title">À propos</h2>
+    <div class="about-grid">
+      <div>
+        <div class="about-text">
+          <p>
+            Développeur web <strong>passionné et autonome</strong>, je maîtrise aussi bien le
+            front-end (HTML, CSS, JavaScript) que le back-end (PHP, MySQL, Laravel). Je conçois
+            des sites et applications <strong>performants, responsives</strong> et pensés pour
+            l'expérience utilisateur, en m'adaptant rapidement aux besoins de chaque projet.
+          </p>
+          <p>
+            À l'écoute des besoins clients, je vise des solutions techniques
+            <strong>fiables et évolutives</strong>, du cahier des charges jusqu'à la mise en
+            production. Je travaille avec les contraintes réelles du marché local : Mobile
+            Money, hébergement mutualisé, connectivité variable.
+          </p>
+        </div>
+        <div class="parcours">
+          <div class="parcours-item">
+            <div class="parcours-dot"></div>
+            <div><div class="yr">2021</div><div class="lbl">Baccalauréat, Série B</div></div>
+          </div>
+          <div class="parcours-item">
+            <div class="parcours-dot"></div>
+            <div><div class="yr">Février 2026</div><div class="lbl">Certification de fin de formation en Développement Web</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="info-card">
+        <h4>Fiche profil</h4>
+        <div class="info-row"><span class="k">Nom</span><span class="v">Nelson R. Tossouvi</span></div>
+        <div class="info-row"><span class="k">Rôle</span><span class="v">Dév. Web Full-Stack</span></div>
+        <div class="info-row"><span class="k">Zone</span><span class="v">Bénin</span></div>
+        <div class="info-row"><span class="k">Stack</span><span class="v">HTML - CSS - JAVASCRIPT -PHP</span></div>
+        <div class="info-row"><span class="k">Langue</span><span class="v">Français</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="projets" style="background:var(--paper);">
+  <div class="wrap">
+    <div class="eyebrow">Réalisations</div>
+    <h2 class="title">Projets</h2>
+    <p class="lede">Des plateformes construites pour des besoins réels, du premier commit à la production.</p>
+
+    <div class="projects-list">
+
+      <div class="proj" data-reveal>
+        <div class="proj-head">
+          <div><h3>Sharez</h3><div class="subtitle">Marketplace d'achat-vente — Bénin</div></div>
+          <span class="status-pill status-live">Prêt pour production</span>
+        </div>
+        <p class="desc">
+          Plateforme d'achat-vente avec paiement en séquestre (escrow), suivi de livraison GPS
+          et gestion multi-rôles (acheteur, vendeur, livreur, admin).
+        </p>
+        <div class="stat-row">
+          <div class="stat"><div class="num">81</div><div class="lbl">Fichiers PHP</div></div>
+          <div class="stat"><div class="num">0</div><div class="lbl">Erreur de syntaxe</div></div>
+        </div>
+        <div class="tag-row">
+          <span class="tag">FedaPay / Mobile Money</span>
+          <span class="tag">PeerJS · WebRTC</span>
+          <span class="tag">Leaflet.js · GPS</span>
+          <span class="tag">PWA</span>
+        </div>
+      </div>
+
+      <div class="proj" data-reveal>
+        <div class="proj-head">
+          <div><h3>MarkAtis</h3><div class="subtitle">Marché des Artisans du Bénin</div></div>
+          <span class="status-pill status-live">Prêt pour production</span>
+        </div>
+        <p class="desc">
+          Marketplace mettant en relation artisans et clients : profils, réalisations, prise de
+          rendez-vous, avis, favoris, messagerie et tableau de bord statistiques pour les artisans.
+        </p>
+        <div class="stat-row">
+          <div class="stat"><div class="num">18</div><div class="lbl">Tables en base</div></div>
+          <div class="stat"><div class="num">2</div><div class="lbl">Espaces (artisan / client)</div></div>
+        </div>
+        <div class="tag-row">
+          <span class="tag">PHP / MySQL</span>
+          <span class="tag">Prise de rendez-vous</span>
+          <span class="tag">Messagerie</span>
+          <span class="tag">Statistiques artisans</span>
+        </div>
+        <a class="proj-link" href="https://github.com/nelsontossouvi-dotcom/marketplace" target="_blank" rel="noopener noreferrer">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.73.5.5 5.73.5 12c0 5.09 3.29 9.4 7.86 10.93.57.1.79-.25.79-.55 0-.27-.01-1.17-.02-2.12-3.2.7-3.87-1.36-3.87-1.36-.53-1.34-1.29-1.7-1.29-1.7-1.05-.72.08-.71.08-.71 1.17.08 1.78 1.2 1.78 1.2 1.03 1.77 2.71 1.26 3.37.96.1-.75.4-1.26.73-1.55-2.56-.29-5.26-1.28-5.26-5.69 0-1.26.45-2.29 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11.1 11.1 0 0 1 5.79 0c2.2-1.49 3.17-1.18 3.17-1.18.64 1.59.24 2.76.12 3.05.74.8 1.18 1.83 1.18 3.09 0 4.42-2.7 5.4-5.27 5.68.41.36.78 1.06.78 2.15 0 1.55-.01 2.8-.01 3.18 0 .3.21.66.8.55A10.51 10.51 0 0 0 23.5 12C23.5 5.73 18.27.5 12 .5Z"/></svg>
+          Voir le code
+        </a>
+      </div>
+
+      <div class="proj" data-reveal>
+        <div class="proj-head">
+          <div><h3>EventFlow</h3><div class="subtitle">Plateforme de gestion d'événements</div></div>
+          <span class="status-pill status-live">Prêt pour production</span>
+        </div>
+        <p class="desc">
+          Gestion complète d'événements : billetterie en ligne, panier et confirmation d'achat côté
+          client, tableau de bord admin avec suivi des ventes et des revenus.
+        </p>
+        <div class="stat-row">
+          <div class="stat"><div class="num">34</div><div class="lbl">Fichiers PHP</div></div>
+          <div class="stat"><div class="num">4</div><div class="lbl">Modules (billets, paiements…)</div></div>
+        </div>
+        <div class="tag-row">
+          <span class="tag">Billetterie</span>
+          <span class="tag">Panier / paiement</span>
+          <span class="tag">Dashboard ventes</span>
+          <span class="tag">Notifications email</span>
+        </div>
+        <a class="proj-link" href="https://github.com/nelsontossouvi-dotcom/Event" target="_blank" rel="noopener noreferrer">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.73.5.5 5.73.5 12c0 5.09 3.29 9.4 7.86 10.93.57.1.79-.25.79-.55 0-.27-.01-1.17-.02-2.12-3.2.7-3.87-1.36-3.87-1.36-.53-1.34-1.29-1.7-1.29-1.7-1.05-.72.08-.71.08-.71 1.17.08 1.78 1.2 1.78 1.2 1.03 1.77 2.71 1.26 3.37.96.1-.75.4-1.26.73-1.55-2.56-.29-5.26-1.28-5.26-5.69 0-1.26.45-2.29 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11.1 11.1 0 0 1 5.79 0c2.2-1.49 3.17-1.18 3.17-1.18.64 1.59.24 2.76.12 3.05.74.8 1.18 1.83 1.18 3.09 0 4.42-2.7 5.4-5.27 5.68.41.36.78 1.06.78 2.15 0 1.55-.01 2.8-.01 3.18 0 .3.21.66.8.55A10.51 10.51 0 0 0 23.5 12C23.5 5.73 18.27.5 12 .5Z"/></svg>
+          Voir le code
+        </a>
+      </div>
+
+      <div class="proj" data-reveal>
+        <div class="proj-head">
+          <div><h3>AgendaPlus</h3><div class="subtitle">Gérez votre temps intelligemment</div></div>
+          <span class="status-pill status-live">Prêt pour production</span>
+        </div>
+        <p class="desc">
+          Application d'agenda et de gestion du temps installable (PWA) : calendrier, rapports
+          d'activité, profil et paramètres personnalisés.
+        </p>
+        <div class="stat-row">
+          <div class="stat"><div class="num">15</div><div class="lbl">Fichiers PHP</div></div>
+          <div class="stat"><div class="num">PWA</div><div class="lbl">Installable</div></div>
+        </div>
+        <div class="tag-row">
+          <span class="tag">Calendrier</span>
+          <span class="tag">Rapports</span>
+          <span class="tag">Service Worker</span>
+        </div>
+        <a class="proj-link" href="https://github.com/nelsontossouvi-dotcom/AGENDA" target="_blank" rel="noopener noreferrer">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.73.5.5 5.73.5 12c0 5.09 3.29 9.4 7.86 10.93.57.1.79-.25.79-.55 0-.27-.01-1.17-.02-2.12-3.2.7-3.87-1.36-3.87-1.36-.53-1.34-1.29-1.7-1.29-1.7-1.05-.72.08-.71.08-.71 1.17.08 1.78 1.2 1.78 1.2 1.03 1.77 2.71 1.26 3.37.96.1-.75.4-1.26.73-1.55-2.56-.29-5.26-1.28-5.26-5.69 0-1.26.45-2.29 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11.1 11.1 0 0 1 5.79 0c2.2-1.49 3.17-1.18 3.17-1.18.64 1.59.24 2.76.12 3.05.74.8 1.18 1.83 1.18 3.09 0 4.42-2.7 5.4-5.27 5.68.41.36.78 1.06.78 2.15 0 1.55-.01 2.8-.01 3.18 0 .3.21.66.8.55A10.51 10.51 0 0 0 23.5 12C23.5 5.73 18.27.5 12 .5Z"/></svg>
+          Voir le code
+        </a>
+      </div>
+
+      <div class="proj" data-reveal>
+        <div class="proj-head">
+          <div><h3>SOUTEN@IMA</h3><div class="subtitle">Gestion des soutenances — Institut du Multimédia Appliqué</div></div>
+          <span class="status-pill status-progress">En cours</span>
+        </div>
+        <p class="desc">
+          Plateforme de gestion des soutenances de fin de formation et des cérémonies de
+          certification, déployée sur plusieurs campus au Bénin et au Togo.
+        </p>
+        <div class="stat-row">
+          <div class="stat"><div class="num">15+</div><div class="lbl">Modèles Eloquent</div></div>
+          <div class="stat"><div class="num">2</div><div class="lbl">Campus (Bénin, Togo)</div></div>
+        </div>
+        <div class="tag-row">
+          <span class="tag">Laravel</span>
+          <span class="tag">React / TypeScript</span>
+          <span class="tag">Journal d'audit</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section id="competences">
+  <div class="wrap">
+    <div class="eyebrow">Compétences</div>
+    <h2 class="title">Boîte à outils</h2>
+    <p class="lede">La stack que j'utilise selon la nature du projet et de l'hébergement disponible.</p>
+    <div class="kit">
+      <div class="kit-group">
+        <h4>Backend</h4>
+        <ul><li>PHP / MySQL</li></ul>
+      </div>
+      <div class="kit-group">
+        <h4>Frontend</h4>
+        <ul><li>HTML / CSS / JavaScript</li></ul>
+      </div>
+      <div class="kit-group">
+        <h4>Paiements &amp; local</h4>
+        <ul><li>FedaPay (Mobile Money)</li></ul>
+      </div>
+      <div class="kit-group">
+        <h4>Infra &amp; déploiement</h4>
+        <ul><li>Hébergement cPanel</li><li>XAMPP (dev local)</li><li>PM2 / Node.js</li></ul>
+      </div>
+    </div>
+    <div class="soft-skills">
+      <span class="soft-pill">Sens du contact</span>
+      <span class="soft-pill">Communication</span>
+      <span class="soft-pill">Capacité d'adaptation</span>
+      <span class="soft-pill">Polyvalence</span>
+      <span class="soft-pill">Autonomie</span>
+      <span class="soft-pill">Organisé et réactif</span>
+    </div>
+  </div>
+</section>
+
+<section id="contact" style="background:var(--paper);">
+  <div class="wrap">
+    <div class="eyebrow">Contact</div>
+    <h2 class="title">Discutons de votre projet</h2>
+    <p class="lede">Disponible pour des missions freelance ou des collaborations sur de nouvelles plateformes.</p>
+    <div class="contact-grid">
+      <div class="contact-card">
+        <h3>Restons en contact</h3>
+        <p>Le plus simple pour me joindre rapidement :</p>
+        <div class="contact-list">
+          <a href="mailto:votre@email.com">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 4h16v16H4z"/><path d="m4 6 8 7 8-7"/></svg>
+            nelsontossouvi@email.com
+          </a>
+          <a href="https://wa.me/22954046340" target="_blank" rel="noopener noreferrer">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.46 1.32 4.96L2.05 22l5.25-1.38a9.9 9.9 0 0 0 4.74 1.21h.01c5.46 0 9.9-4.45 9.9-9.92 0-2.65-1.03-5.14-2.9-7.01A9.87 9.87 0 0 0 12.04 2Z"/></svg>
+            +229 015 404 6340
+          </a>
+          <a href="https://www.linkedin.com/in/nelson-tossouvi-b67347318?trk=contact-info" target="_blank" rel="noopener noreferrer">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.34V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29ZM5.34 7.43a2.07 2.07 0 1 1 0-4.13 2.07 2.07 0 0 1 0 4.13ZM7.12 20.45H3.56V9h3.56v11.45Z"/></svg>
+            linkedin.com/in/votre-profil
+          </a>
+          <a href="https://github.com/nelsontossouvi-dotcom" target="_blank" rel="noopener noreferrer">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5C5.73.5.5 5.73.5 12c0 5.09 3.29 9.4 7.86 10.93.57.1.79-.25.79-.55 0-.27-.01-1.17-.02-2.12-3.2.7-3.87-1.36-3.87-1.36-.53-1.34-1.29-1.7-1.29-1.7-1.05-.72.08-.71.08-.71 1.17.08 1.78 1.2 1.78 1.2 1.03 1.77 2.71 1.26 3.37.96.1-.75.4-1.26.73-1.55-2.56-.29-5.26-1.28-5.26-5.69 0-1.26.45-2.29 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11.1 11.1 0 0 1 5.79 0c2.2-1.49 3.17-1.18 3.17-1.18.64 1.59.24 2.76.12 3.05.74.8 1.18 1.83 1.18 3.09 0 4.42-2.7 5.4-5.27 5.68.41.36.78 1.06.78 2.15 0 1.55-.01 2.8-.01 3.18 0 .3.21.66.8.55A10.51 10.51 0 0 0 23.5 12C23.5 5.73 18.27.5 12 .5Z"/></svg>
+            github.com/nelsontossouvi-dotcom
+          </a>
+        </div>
+      </div>
+      <div class="avail-card">
+        <h3>Fiche rapide</h3>
+        <p>Résumé pour un premier contact.</p>
+        <div class="avail-row"><span class="k">Nom</span><span class="v">Nelson R. Tossouvi</span></div>
+        <div class="avail-row"><span class="k">Zone</span><span class="v">Bénin</span></div>
+        <div class="avail-row"><span class="k">Disponibilité</span><span class="v">Ouvert aux missions</span></div>
+        <div class="avail-row"><span class="k">CV</span><span class="v"><a href="CV_Nelson_Tossouvi.pdf" download style="color:var(--blue);text-decoration:none;">Télécharger →</a></span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap footer-inner">
+    <span>© 2026 Nelson Rodrigue Tossouvi</span>
+    <span>Conçu &amp; codé au Bénin</span>
+  </div>
+</footer>
+
+<script>
+  // Web-dev themed code typing animation
+  const codeLines = [
+    { html: '<span class="kw">const</span> developpeur = {' },
+    { html: '&nbsp;&nbsp;nom: <span class="str">"Nelson Rodrigue Tossouvi"</span>,' },
+    { html: '&nbsp;&nbsp;role: <span class="str">"Développeur Web Full-Stack"</span>,' },
+    { html: '&nbsp;&nbsp;stack: [<span class="str">"PHP"</span>, <span class="str">"Laravel"</span>, <span class="str">"React"</span>],' },
+    { html: '&nbsp;&nbsp;zone: <span class="str">"Bénin, Togo"</span>,' },
+    { html: '&nbsp;&nbsp;disponible: <span class="kw">true</span>' },
+    { html: '};' },
+    { html: '<span class="cmt">// prêt à construire votre prochaine plateforme</span>' },
+  ];
+  const codeBody = document.getElementById('codeBody');
+  let ci = 0;
+
+  function renderCode(upTo, partial){
+    let out = "";
+    for(let i=0;i<upTo;i++){ out += codeLines[i].html + "\n"; }
+    if(partial !== undefined){ out += partial; }
+    codeBody.innerHTML = out + '<span class="code-cursor"></span>';
+  }
+
+  function typeLine(lineIdx){
+    if(lineIdx >= codeLines.length){
+      setTimeout(() => { ci = 0; renderCode(0); typeLine(0); }, 2600);
+      return;
+    }
+    const full = codeLines[lineIdx].html;
+    // type by stripping tags progressively is complex; instead reveal whole line with a short delay for a clean, professional effect
+    renderCode(lineIdx);
+    setTimeout(() => {
+      renderCode(lineIdx + 1);
+      typeLine(lineIdx + 1);
+    }, 420);
+  }
+  typeLine(0);
+
+  // Scroll reveal
+  const revealEls = document.querySelectorAll('[data-reveal]');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: 0.12 });
+  revealEls.forEach(el => io.observe(el));
+</script>
+
+</body>
+</html>
